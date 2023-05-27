@@ -9,8 +9,6 @@ import "C"
 
 import (
 	"unsafe"
-
-	"github.com/bmatsuo/lmdb-go/internal/lmdbarch"
 )
 
 // valSizeBits is the number of bits which constraining the length of the
@@ -25,7 +23,8 @@ import (
 // On 64-bit systems, luckily, the value 2^32-1 coincides with the maximum data
 // size for LMDB (MAXDATASIZE).
 const (
-	valSizeBits = lmdbarch.Width64*32 + (1-lmdbarch.Width64)*31
+	Width64 = 1 << (^uintptr(0) >> 63) / 2
+	valSizeBits = Width64*32 + (1-Width64)*31
 	valMaxSize  = 1<<valSizeBits - 1
 )
 
